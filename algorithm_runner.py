@@ -5,8 +5,8 @@ class AlgorithmRunner:
     def __init__(self, algorithm):
         self.algorithm = algorithm
 
-    def fit(self):
-        self.algorithm.fit()
+    def fit(self, train_set, labels):
+        self.algorithm.fit(train_set, labels)
 
-    def predict(self):
-        self.algorithm.predict()
+    def predict(self, train_set):
+        return self.algorithm.predict(train_set).tolist()

@@ -24,19 +24,20 @@ class Data:
                          'budget', 'cast_total_facebook_likes', 'director_facebook_likes', 'duration',
                          'facenumber_in_poster', 'gross', 'movie_facebook_likes', 'num_critic_for_reviews',
                          'num_user_for_reviews', 'num_voted_users', 'title_year']
-        for col in cols_for_norm:
-            df[col] = (df[col] - df[col].mean()) / df[col].std(ddof=0)
 
-        genres = df["genres"].str.get_dummies(sep="|")
         # concat to my table
 
-        df['imdb_score'].values[df['imdb_score'].values < 7] = 0
-        df['imdb_score'].values[df['imdb_score'].values >= 7] = 1
+        a = np.array(df['imdb_score'].values.tolist())
+        df['imdb_score'] = np.where(a >= 7, 1, 0).tolist()
         self.labels = df['imdb_score'].to_numpy()
         df = df.drop(["imdb_score"], axis=1)
-        df = df.drop(["genres"], axis=1)
         df = df.groupby(df.columns, axis=1).sum()  # sum of actrors
-
+        genres = df["genres"].str.get_dummies(sep="|")
+        df = df.drop(["genres"], axis=1)
+        for col in cols_for_norm:
+            df[col] = (df[col] - df[col].mean()) / df[col].std(ddof=0)
+        df= pd.concat([df, genres],  axis=1)
+        df = df.drop(["movie_title"], axis=1)
         self.df = df
 
     def split_to_k_Folds(self):
