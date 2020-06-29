@@ -1,9 +1,12 @@
-import pandas as pd
+from sklearn.neighbors import KNeighborsClassifier
 
 
-def fit():
-    pass
+class AlgorithmRunner:
+    def __init__(self, algorithm):
+        self.algorithm = algorithm
 
+    def fit(self):
+        self.algorithm.fit()
 
-def predict():
-    pass
+    def predict(self):
+        self.algorithm.predict()
