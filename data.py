@@ -36,7 +36,7 @@ class Data:
         df = df.drop(["genres"], axis=1)
         for col in cols_for_norm:
             df[col] = (df[col] - df[col].mean()) / df[col].std(ddof=0)
-        df= pd.concat([df, genres],  axis=1)
+        df = pd.concat([df, genres], axis=1)
         df = df.drop(["movie_title"], axis=1)
         self.df = df
 
